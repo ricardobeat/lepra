@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# On first invocation, run rlwrap on this script itself, then
+# take input from stdin when invoked with --wrap
+if [[ $1 != '--wrap' ]]; then
+    rlwrap -S'> ' $0 --wrap
+else
+    perl -E '
+      use Term::ANSIColor qw(:constants);
+      use Data::Dumper;
+      $Data::Dumper::Terse = 1;
+      while (<>) {
+        chomp; s/my //g;
+        print YELLOW . Data::Dumper::Dumper(eval) . RESET;
+        if ($@ ne "") { say RED . $@ . RESET };
+      }
+    '
+fi
