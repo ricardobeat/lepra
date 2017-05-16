@@ -6,6 +6,7 @@ if [[ $1 != '--wrap' ]]; then
     rlwrap -S'> ' $0 --wrap
 else
     perl -E '
+      use warnings;
       use Term::ANSIColor qw(:constants);
       use Data::Dumper;
       $Data::Dumper::Terse = 1;
